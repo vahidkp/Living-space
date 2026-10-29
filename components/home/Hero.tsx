@@ -22,7 +22,7 @@ export function Hero() {
     <section className="relative flex min-h-[30rem] items-end overflow-hidden bg-bg-alt h-[76vh] max-h-[46rem] sm:items-center">
       <Image
         src="/images/stock/hero.jpg"
-        alt="HERO_ALT"
+        alt="A living room with a long cream sectional sofa in front of a dark marble-effect wall with gold trim and wall lights"
         fill
         priority
         sizes="100vw"
@@ -31,12 +31,12 @@ export function Hero() {
       {/*
         Scrim. Two elements rather than one with a `sm:` variant, because the
         scrim classes are plain component classes — Tailwind does not generate
-        breakpoint variants for them, so `sm:scrim-full` would silently no-op.
-        Mobile: gradient from the bottom, where the copy sits. Desktop: an even
-        wash, since the copy is vertically centred over the image.
+        breakpoint variants for them, so `sm:scrim-left` would silently no-op.
+        Mobile: gradient from the bottom, where the copy sits. Desktop: gradient
+        from the left, since the copy is left-aligned and vertically centred.
       */}
       <div className="scrim-bottom absolute inset-0 sm:hidden" aria-hidden="true" />
-      <div className="scrim-full absolute inset-0 hidden sm:block" aria-hidden="true" />
+      <div className="scrim-left absolute inset-0 hidden sm:block" aria-hidden="true" />
 
       <div className="on-dark shell relative z-10 pb-12 sm:pb-0">
         <div className="max-w-xl">

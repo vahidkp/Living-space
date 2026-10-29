@@ -82,7 +82,7 @@ export default function HomePage() {
         href="/shop"
         linkLabel="Explore the collection"
         image="/images/stock/scene-living.jpg"
-        imageAlt="SCENE_LIVING_ALT"
+        imageAlt="A curved cream sofa with copper end panels beside marble nesting tables, in front of oak wall panelling"
       />
 
       {/* ── First product rail ─────────────────────────────────────────── */}
@@ -103,7 +103,7 @@ export default function HomePage() {
             href: "/shop?category=majlis",
             linkLabel: "Shop majlis",
             image: "/images/stock/scene-majlis.jpg",
-            imageAlt: "SCENE_MAJLIS_ALT",
+            imageAlt: "A bright sitting room with cream channel-backed sofas, a navy accent sofa and round marble-topped tables",
           },
           {
             eyebrow: "Bedrooms",
@@ -111,7 +111,7 @@ export default function HomePage() {
             href: "/shop?category=beds",
             linkLabel: "Shop beds & bed walls",
             image: "/images/stock/scene-bedroom.jpg",
-            imageAlt: "SCENE_BEDROOM_ALT",
+            imageAlt: "A bed with a textured beige cover and layered cushions beneath a tiled headboard panel",
           },
         ]}
       />
@@ -131,7 +131,7 @@ export default function HomePage() {
         )}
         linkLabel="Message us on WhatsApp"
         image="/images/stock/scene-tv.jpg"
-        imageAlt="SCENE_TV_ALT"
+        imageAlt="A wall-mounted TV on full-height oak panelling with fluted sections, above a low built-in plinth"
       />
 
       {/* ── Second product rail ────────────────────────────────────────── */}

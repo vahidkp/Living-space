@@ -370,11 +370,26 @@
     pointer-events: none;
   }
 
-  .scrim-full::after {
+  /* Desktop hero: the copy sits in the left ~45% of the frame, so the scrim is
+     weighted there and fades out to the right, leaving the room visible.
+
+     This was a flat 0.34 wash. Over the current hero's lit wall sconce, which
+     sits directly behind the headline and intro, that left cream text at about
+     2.6:1. Clearing 4.5:1 over a near-white glow needs roughly 0.61 black, so
+     the copy side holds 0.66 → 0.60 (≈6.9:1 over the sconce) before tapering.
+     Same worst-case rule as above: size it for the brightest thing that could
+     sit behind the text, not the average image. */
+  .scrim-left::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgb(0 0 0 / 0.34);
+    background: linear-gradient(
+      to right,
+      rgb(0 0 0 / 0.66) 0%,
+      rgb(0 0 0 / 0.6) 42%,
+      rgb(0 0 0 / 0.22) 72%,
+      rgb(0 0 0 / 0.12) 100%
+    );
     pointer-events: none;
   }
 }

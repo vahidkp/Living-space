@@ -12,7 +12,7 @@ highlights. `lib/site.ts` records which facts came from there and which are
 unknown: no street address, no email, no opening hours. Don't invent them.
 
 **Every product photo is a STOCK PLACEHOLDER.** The business hasn't supplied
-photography yet, so the PRODUCT_COUNT catalogue entries use free-licence
+photography yet, so the 18 catalogue entries use free-licence
 Unsplash images (credits in `public/images/stock/CREDITS.md`). Their names and
 descriptions are written to match each photo. They are not Living Space's work
 and must be replaced before launch. To replace them, swap the image files and
