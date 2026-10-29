@@ -99,7 +99,10 @@ implementation — `getFilteredProducts()` is a pure function used once, on the
 server. A reload, a shared link and a back-button press must all produce the
 same view.
 
-**Images.** `next/image` only; a raw `<img>` is a bug. Exactly one `priority`
+**Images.** `next/image` only; a raw `<img>` is a bug. The single exception is
+the hero's art-directed `<picture>`. It is built from `getImageProps()`, so both
+sources still go through the optimizer, and `Hero.tsx` explains why phones need
+their own crop. Exactly one `priority`
 image per page, on the true LCP element. Always pass an accurate `sizes` — the
 correct value depends on the layout the component sits in, which is why
 `ProductCard` takes it as a prop rather than guessing.

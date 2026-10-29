@@ -7,7 +7,7 @@ under the [Unsplash License](https://unsplash.com/license). That licence
 allows commercial use and doesn't require attribution, but it's given here anyway.
 
 Each one was cropped (products to 4:5 at 1200×1500, scenes to 3:2 at
-1600×1067, the hero to 16:9 at 2400×1350), re-encoded as a progressive JPEG,
+1600×1067, the hero to 16:9 at 2400×1350 plus a 1290×2100 portrait crop for phones), re-encoded as a progressive JPEG,
 and stripped of EXIF. Nothing was enlarged past its source resolution.
 
 Three bed renders the sourcing pass found were left out, because they
@@ -21,6 +21,7 @@ and showing it on another brand's site isn't either.
 | `beds-4-0.jpg` | Spacejoy | https://unsplash.com/photos/modern-bedroom-with-white-upholstered-bed-RUvW1KGD9a4 |
 | `beds-5-0.jpg` | Spacejoy | https://unsplash.com/photos/modern-bedroom-with-crystal-chandelier-eyEy5YZhSvU |
 | `hero.jpg` | Aalo Lens | https://unsplash.com/photos/luxurious-modern-living-room-with-large-sectional-sofa-jkwKXLxTY_4 |
+| `hero-mobile.jpg` | Aalo Lens | same photo as `hero.jpg`, a portrait crop (1290×2100) for phones |
 | `majlis-1-0.jpg` | Mohammad Najjar | https://unsplash.com/photos/a-living-room-filled-with-white-couches-and-a-wooden-coffee-table-b4lk354Lp_M |
 | `majlis-2-0.jpg` | Amira Aboalnaga | https://unsplash.com/photos/living-room-with-white-sofa-and-brown-wooden-coffee-table-1LGiB1BDz5M |
 | `majlis-3-0.jpg` | AZIZ KOURI | https://unsplash.com/photos/elegant-living-room-with-multiple-sofas-and-moroccan-inspired-decor-gQwmhH2PRqY |
