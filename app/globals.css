@@ -1,0 +1,449 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   LIVING SPACE FURNITURE — DESIGN TOKENS
+   Single source of truth. Values come from PRD-Almadinah-Furniture.md §5.2/§5.3.
+
+   Declared in Tailwind v4's `@theme`, which both emits the CSS custom
+   properties under `:root` AND generates the matching utilities — so `bg-bg`,
+   `text-ink`, `border-line` and `var(--color-ink)` are guaranteed to stay in
+   step. Never hardcode a hex value or font-family in a component.
+
+   NAMING: the PRD writes the two accents as `--color-accent-olive` and
+   `--color-accent-terracotta`. They are shortened here to `--color-olive` and
+   `--color-terracotta` so the generated utilities read `text-olive` rather than
+   `text-accent-olive`. Same values, same roles; only the token name is shorter.
+   ============================================================================ */
+
+@theme {
+  /* Surfaces & ink (PRD §5.2) */
+  --color-bg: #f7f4ef;
+  --color-bg-alt: #ede7dc;
+  --color-ink: #221f1b;
+  --color-ink-soft: #4a463e;
+  --color-muted: #6d685e; /* adjusted from PRD #8B8578 — see note below */
+  --color-olive: #5c6b4e;
+  --color-terracotta: #95593e; /* adjusted from PRD #B26B4A — see note below */
+  --color-surface-dark: #161611;
+  --color-line: #dfd9cc;
+
+  /* On-dark equivalents, for the footer and dark promo strips */
+  --color-ink-inverse: #f7f4ef;
+  --color-muted-inverse: #a8a294;
+  --color-line-dark: #35342c;
+  /* Olive reaches only 3.17:1 on --color-surface-dark, so it must never carry
+     text or a focus ring there. This lightened step is the on-dark stand-in. */
+  --color-olive-on-dark: #8ca075;
+
+  /* WhatsApp brand, for the floating enquiry button. This is an external
+     brand's colour rather than part of the Living Space palette, but it lives here
+     so no component carries a raw hex.
+
+     Deliberately WhatsApp's teal and NOT the more familiar light green
+     #25D366: against --color-bg that green measures 1.81:1, and a white glyph
+     on it 1.98:1 — both far below the 3:1 WCAG 1.4.11 requires for a UI
+     component and its icon. The teal clears both at 3.77:1 and 4.14:1. */
+  --color-whatsapp: #128c7e;
+  --color-whatsapp-hover: #0f7267;
+
+  /* Border radius — near-square, 2–8px only (design-system-tokens rule 6).
+     This is not a rounded, playful brand. */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+}
+
+@theme inline {
+  /* next/font sets --font-fraunces / --font-inter on <html>; `inline` makes the
+     utilities reference those directly rather than through another indirection. */
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  /* Non-Tailwind-namespaced tokens: layout rhythm and motion. */
+
+  /* Vertical section rhythm (PRD §5.4: 64–96px) */
+  --section-y: 4rem; /* 64px — mobile  */
+  --section-y-lg: 6rem; /* 96px — desktop */
+
+  /* Max content width (PRD §5.4) */
+  --content-max: 90rem; /* 1440px */
+
+  /* Motion — the animation skill caps everything at ~350ms */
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+  --dur-slow: 300ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ----------------------------------------------------------------------------
+   ACCESSIBILITY NOTE — two PRD §5.2 hexes were adjusted, per the
+   accessibility-audit skill ("if muted text fails 4.5:1 at small sizes, darken
+   it slightly rather than using it for essential copy"). Hue and saturation
+   held constant; lightness reduced until BOTH the #F7F4EF and the harder
+   #EDE7DC ground clear AA 4.5:1. Measured, not estimated:
+
+     token               PRD hex → used     on --color-bg   on --color-bg-alt
+     --color-muted       #8B8578 → #6D685E   3.34 → 5.05     3.00 → 4.50
+     --color-terracotta  #B26B4A → #95593E   3.76 → 5.07     3.38 → 4.52
+
+   Verified as shipped (contrast vs --color-bg / --color-bg-alt):
+     --color-ink        #221F1B   14.96 / 13.33   AA
+     --color-ink-soft   #4A463E    8.56 /  7.63   AA
+     --color-muted      #6D685E    5.05 /  4.50   AA
+     --color-olive      #5C6B4E    5.22 /  4.65   AA  (unchanged from PRD)
+     --color-terracotta #95593E    5.07 /  4.52   AA
+     cream on dark      #F7F4EF   16.54 on #161611  AA
+     muted on dark      #A8A294    7.14 on #161611  AA
+
+   Every other PRD token passed as specified and is used verbatim.
+   -------------------------------------------------------------------------- */
+
+/* ============================================================================
+   BASE TYPOGRAPHY
+   ============================================================================ */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem; /* 15px, PRD §5.3 */
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Display/serif for headings, light weight, tight tracking (PRD §5.3) */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 5.5vw, 4rem);
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+  }
+
+  h4 {
+    font-size: 1.125rem;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible focus ring on everything — never removed without a replacement
+     (accessibility-audit skill). The offset keeps it legible over imagery. */
+  :focus-visible {
+    outline: 2px solid var(--color-olive);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Olive lacks contrast on dark surfaces; switch the ring to cream there. */
+  .on-dark :focus-visible {
+    outline-color: var(--color-ink-inverse);
+  }
+
+  ::selection {
+    background-color: var(--color-olive);
+    color: var(--color-ink-inverse);
+  }
+}
+
+/* ============================================================================
+   COMPONENT UTILITIES
+   Reusable rhythm/typography primitives so pages don't repeat arbitrary
+   padding values (design-system-tokens rule 4).
+   ============================================================================ */
+
+@layer components {
+  /* Max-width content shell with responsive gutters (PRD §5.4: 24–32px) */
+  .shell {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .shell {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Vertical section rhythm */
+  .section-y {
+    padding-block: var(--section-y);
+  }
+
+  @media (min-width: 1024px) {
+    .section-y {
+      padding-block: var(--section-y-lg);
+    }
+  }
+
+  /* Uppercase micro-label / eyebrow (PRD §5.3: 11–12px, +0.08em) */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  @media (min-width: 640px) {
+    .eyebrow {
+      font-size: 0.75rem;
+    }
+  }
+
+  /* Heavy uppercase sans display, as used on the reference's overlay banners */
+  .display-caps {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────
+     PRODUCT CARD HOVER SWAP
+
+     Written as plain CSS in one place rather than as Tailwind `group-hover:`
+     utilities, because the whole behaviour must be gated behind a single
+     `(hover: hover) and (pointer: fine)` query and that gate has to be
+     guaranteed, not inferred from how a variant happens to compile.
+
+     Why the gate matters, twice over:
+
+     1. BYTES. The secondary image sits stacked behind the primary in the same
+        in-viewport box, so `loading="lazy"` does not save it — the browser
+        treats it as visible and fetches it, roughly doubling image bytes for
+        every above-the-fold card on mobile. `display: none` is the only thing
+        that reliably prevents the fetch (visibility, opacity and z-index all
+        still load it), so the element is absent by default and only introduced
+        where hovering is possible.
+
+     2. CORRECTNESS. Touch browsers can emulate a sticky `:hover` after a tap.
+        If the primary faded out while the secondary was `display: none`, a tap
+        would leave an empty box. Gating both halves together makes that
+        impossible rather than unlikely.
+     ────────────────────────────────────────────────────────────────────── */
+
+  .hover-only {
+    display: none;
+  }
+
+  .pc-img {
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hover-only {
+      display: block;
+    }
+
+    .pc-card:hover .pc-img {
+      transform: scale(1.03);
+    }
+
+    /* Only fade the primary when there is genuinely a second image behind it. */
+    .pc-card:hover .pc-img-primary-swap {
+      opacity: 0;
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────
+     ANNOUNCEMENT MARQUEE
+
+     The track holds the message list twice over and translates by exactly -50%,
+     so the second copy lands where the first began and the loop is seamless
+     with no JS measuring anything. The duplicate is aria-hidden — it is the
+     same sentences a second time, and announcing them twice is noise.
+
+     Motion rules, because scrolling text is the classic accessibility trap:
+       · pauses on hover
+       · pauses via an explicit button — WCAG 2.2.2 wants a real mechanism, and
+         the button is the one that works for keyboard and touch
+       · does not animate at all under prefers-reduced-motion (see the block at
+         the end of this file — those overrides must sit OUTSIDE @layer, since
+         these elements carry Tailwind's `flex` utility and the utilities layer
+         would otherwise beat a `display: none` declared in here)
+
+     Note there is deliberately no `:focus-within` pause. The bar holds no
+     focusable content other than the toggle itself, so the rule could only ever
+     fire on the toggle — and pausing whenever the toggle has focus would mean
+     pressing "Resume" left it visibly stopped, which reads as a broken button.
+     ────────────────────────────────────────────────────────────────────── */
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee {
+    overflow: hidden;
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll var(--marquee-duration, 42s) linear infinite;
+    /* Promote once, so the transform never triggers repaints of the bar. */
+    will-change: transform;
+  }
+
+  .marquee:hover .marquee-track,
+  .marquee-track[data-paused="true"] {
+    animation-play-state: paused;
+  }
+
+  /* Hide scrollbars on scroll-snap rails without disabling scrolling */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Legibility scrim for text set over photography. A flat overlay would wash
+     the image out; this keeps the top of the frame clear and only darkens
+     behind the copy.
+     
+     The stops are sized for the WORST CASE image, not the average one. The
+     catalogue photography is largely product shots on near-white studio
+     backgrounds — the storage and sofa tiles are almost pure white behind the
+     label — and the previous 0.34 midpoint put white tagline text at roughly
+     2.3:1 there. Over a white image these stops give about 9:1 at the base and
+     4.9:1 at the 45% mark, which is where the tagline's top line sits.
+     
+     Automated contrast checks cannot catch this: axe sees text over a
+     transparent element and an image, and skips it. If the stops are lightened,
+     re-measure against a white-background photo by hand. */
+  .scrim-bottom::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0.76) 0%,
+      rgb(0 0 0 / 0.56) 45%,
+      rgb(0 0 0 / 0.14) 76%,
+      rgb(0 0 0 / 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  .scrim-full::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 0.34);
+    pointer-events: none;
+  }
+}
+
+/* ============================================================================
+   SCROLL REVEAL
+   Progressive enhancement: sections are visible by default, and only become
+   hidden-then-revealed once the bootstrap script in app/layout.tsx has set
+   data-reveal-ready. If JS never runs, nothing is ever hidden.
+   ============================================================================ */
+
+html[data-reveal-ready="true"] [data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+html[data-reveal-ready="true"] [data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+/* ============================================================================
+   REDUCED MOTION
+   Animation skill: reveal/hover animations reduce to instant state changes.
+   The bootstrap script also bails out entirely under this preference, so
+   nothing is ever hidden in the first place — this is belt and braces.
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html[data-reveal-ready="true"] [data-reveal="pending"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── Announcement marquee: stop it dead and show one static line ──────────
+     These rules live here, unlayered, on purpose. Declared inside
+     @layer components they lost to Tailwind's `flex` utility on the same
+     elements (the utilities layer is ordered after components), so the
+     duplicated copy stayed visible and the bar showed all six messages at once.
+     Unlayered declarations outrank every layer, which is what this needs.
+
+     One line rather than three: with the animation gone, three messages have no
+     room to sit side by side on a narrow viewport. The first message is the one
+     kept, which is why lib/site.ts notes it should be the most important. */
+  .marquee-track {
+    animation: none !important;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .marquee-group:not(:first-child),
+  .marquee-item:not(:first-child) {
+    display: none;
+  }
+
+  /* The trailing separator has nothing to separate once only one line shows. */
+  .marquee-item > span[aria-hidden="true"] {
+    display: none;
+  }
+}
